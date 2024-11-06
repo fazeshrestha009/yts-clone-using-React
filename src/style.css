@@ -408,7 +408,6 @@ a:hover {
     white-space: normal;
 }
 
-/* Checkout Button */
 .checkout-btn {
     margin-top: 20px;
     padding: 10px 20px;
@@ -456,7 +455,7 @@ a:hover {
     }
 
     .search-bar input {
-        width: 100%; /* Full width on smaller screens */
+        width: 100%;
     }
 
     .footer {
@@ -477,30 +476,30 @@ a:hover {
     cursor: pointer;
     transition: background-color 0.3s;
     display: inline-block;
-    margin-right: 20px; 
+    margin-right: 20px;
 }
 
 .add-to-cart-btn {
-    background-color: #dc3545; /* Red */
+    background-color: #dc3545;
 }
 
 .add-to-cart-btn:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333;
 }
 
 .back-btn {
-    background-color: #22c24a; /* Red */
+    background-color: #22c24a;
 }
 
 .back-btn {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #0b8a2b;
 }
 
 @media (max-width: 576px) {
     .add-to-cart-btn,
     .back-to-movies-btn {
-        width: 100%; /* Make buttons full-width on small screens */
-        margin-right: 0; /* Remove margin between buttons */
-        margin-bottom: 10px; /* Add space between buttons */
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
     }
 }
