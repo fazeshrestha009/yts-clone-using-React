@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook from react-router-dom
+import { useNavigate } from 'react-router-dom'; 
 
 const Navbar = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const navigate = useNavigate(); // useNavigate hook to navigate programmatically
-
-  // Function to handle search input change
+  const navigate = useNavigate();
   const handleSearchInput = async (event) => {
     const query = event.target.value.toLowerCase();
     setSearchInput(query);
@@ -16,17 +14,15 @@ const Navbar = () => {
       try {
         const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}`);
         const movies = response.data.data.movies || [];
-        setSearchResults(movies); // Update search results
+        setSearchResults(movies);
       } catch (error) {
         console.error('Error searching for movies:', error);
-        setSearchResults([]); // Clear results in case of error
+        setSearchResults([]); 
       }
     } else {
-      setSearchResults([]); // Clear the dropdown if the input is empty
+      setSearchResults([]); 
     }
   };
-
-  // Function to render search results in the dropdown
   const renderDropdown = () => {
     if (searchResults.length === 0) return null;
     
@@ -45,12 +41,9 @@ const Navbar = () => {
       </div>
     );
   };
-
-  // Function to handle movie click and navigate to details page
   const handleMovieClick = (id) => {
-    navigate(`/movie/${id}`); // Use navigate to redirect to the movie details page
+    navigate(`/movie/${id}`); 
   };
-
   return (
     <nav className="navbar">
       <div className="logo">
@@ -65,7 +58,7 @@ const Navbar = () => {
           placeholder="Search movies..."
           aria-label="Search movies"
         />
-        {renderDropdown()} {/* Render the dropdown with results */}
+        {renderDropdown()} 
       </div>
       <ul className="nav-links">
         <li><a href="#">Home</a></li>

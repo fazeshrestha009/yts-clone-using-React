@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom'; // Updated import
+import { useParams, useNavigate } from 'react-router-dom'; 
 
 const MovieDetails = () => {
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { id } = useParams();
-    const navigate = useNavigate();  // useNavigate hook for navigation
+    const navigate = useNavigate();  
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -47,11 +47,9 @@ const MovieDetails = () => {
     if (loading) return <div className="loading">Loading movie details...</div>;
 
     if (error) return <div className="error">{error}</div>;
-
-    const originalPrice = 2000.00; // Hardcoded original price for the movie
-    const discount = 0.20; // Hardcoded discount (20%)
+    const originalPrice = 2000.00;
+    const discount = 0.20; 
     const discountedPrice = originalPrice * (1 - discount);
-
     return (
         <div className="movie-details-container">
             <div className="movie-poster">

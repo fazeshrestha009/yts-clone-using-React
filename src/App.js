@@ -2,8 +2,8 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import Movies from './components/Movies';
 import Footer from './components/Footer';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Updated import
-import MovieDetails from './components/MovieDetails'; // Import MovieDetails component
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MovieDetails from './components/MovieDetails'; 
 import './style.css';
 
 function App() {
@@ -25,12 +25,8 @@ function App() {
             <a href="#">Follow @YTSYIFY</a>
           </div>
         </div>
-        {/* Define routes */}
         <Routes>
-          {/* Home page with Movies list */}
           <Route path="/" element={<Movies />} />
-          
-          {/* Movie details page */}
           <Route path="/movie/:id" element={<MovieDetails />} />
         </Routes>
       </section>
