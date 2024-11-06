@@ -469,7 +469,7 @@ a:hover {
 }
 
 .add-to-cart-btn,
-.back-to-movies-btn {
+.back-btn {
     padding: 10px 20px;
     color: rgb(228, 212, 212);
     font-size: 1.2em;
@@ -488,11 +488,11 @@ a:hover {
     background-color: #c82333; /* Darker red on hover */
 }
 
-.back-to-movies-btn {
-    background-color: #dc3545; /* Red */
+.back-btn {
+    background-color: #22c24a; /* Red */
 }
 
-.back-to-movies-btn:hover {
+.back-btn {
     background-color: #c82333; /* Darker red on hover */
 }
 
