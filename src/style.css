@@ -410,3 +410,167 @@ a:hover {
 #grandTotal {
     color: #4CAF50;
 }
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    color: #fff;
+  }
+  
+  .cart-items {
+    width: 60%; /* Adjust the width as needed */
+  }
+  
+  .cart-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .cart-list table th, 
+  .cart-list table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cart-list table th {
+    background-color: #333;
+  }
+  
+  .cart-list table td img {
+    max-width: 50px;
+    border-radius: 5px;
+  }
+  
+  .cart-list table td {
+    vertical-align: middle;
+  }
+  
+  .cart-list table td:nth-child(2) {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 200px;
+  }
+  
+  .cart-list table td:nth-child(2):hover {
+    white-space: normal; /* Expand on hover if needed */
+  }
+  
+  .price-breakdown, .total {
+    margin-top: 20px;
+  }
+  
+  .checkout-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .checkout-btn:hover {
+    background-color: #218838;
+  }
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .movies-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .movie-details-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    .movie-poster {
+        margin-right: 0;
+        margin-bottom: 20px;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .search-bar input {
+        width: 100%;
+    }
+
+    .movies-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .movie-details-container {
+        flex-direction: column;
+        padding: 20px;
+    }
+}
+.delete-btn {
+    background-color: red; /* Set background to red */
+    color: white;           /* Text color to white */
+    padding: 8px 16px;      /* Button padding */
+    border: none;           /* Remove border */
+    border-radius: 5px;     /* Rounded corners */
+    cursor: pointer;       /* Pointer cursor on hover */
+    font-size: 14px;        /* Optional font size */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.delete-btn:hover {
+    background-color: darkred; /* Darker red on hover */
+}
+
+@media (max-width: 576px) {
+    .nav-links {
+        flex-direction: column;
+    }
+
+    .nav-links li {
+        padding-right: 0;
+        margin: 5px 0;
+    }
+
+    .movies-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content h1 {
+        font-size: 2em;
+    }
+
+    .content p {
+        font-size: 1em;
+    }
+
+    .movie-poster img {
+        max-width: 100%;
+    }
+
+    .search-bar input {
+        width: 90%;
+    }
+
+    .dropdown {
+        width: 90%;
+    }
+}
+
+@media (max-width: 400px) {
+    .logo img {
+        height: 40px;
+        width: 80px;
+    }
+
+    .navbar {
+        padding: 10px;
+    }
+
+    .footer {
+        font-size: 0.8em;
+    }
+}

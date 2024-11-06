@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setSearchResults([]);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleSearchInput = async (event) => {
     const query = event.target.value.toLowerCase();
     setSearchInput(query);
@@ -17,21 +31,22 @@ const Navbar = () => {
         setSearchResults(movies);
       } catch (error) {
         console.error('Error searching for movies:', error);
-        setSearchResults([]); 
+        setSearchResults([]);
       }
     } else {
-      setSearchResults([]); 
+      setSearchResults([]);
     }
   };
+
   const renderDropdown = () => {
     if (searchResults.length === 0) return null;
-    
+
     return (
-      <div className={`dropdown ${searchResults.length > 0 ? 'show' : ''}`}>
+      <div ref={dropdownRef} className="dropdown show">
         {searchResults.map((movie) => (
-          <div 
-            key={movie.id} 
-            className="dropdown-item" 
+          <div
+            key={movie.id}
+            className="dropdown-item"
             onClick={() => handleMovieClick(movie.id)}
           >
             <img src={movie.medium_cover_image} alt={movie.title} />
@@ -41,13 +56,18 @@ const Navbar = () => {
       </div>
     );
   };
+
   const handleMovieClick = (id) => {
-    navigate(`/movie/${id}`); 
+    setSearchResults([]);
+    navigate(`/movie/${id}`);
   };
+
   return (
     <nav className="navbar">
       <div className="logo">
-        <img src="https://yts.mx/assets/images/website/logo-YTS.svg" alt="Logo" />
+        <Link to="/">
+          <img src="https://yts.mx/assets/images/website/logo-YTS.svg" alt="YTS Logo" />
+        </Link>
       </div>
       <div className="search-bar">
         <input
@@ -58,17 +78,17 @@ const Navbar = () => {
           placeholder="Search movies..."
           aria-label="Search movies"
         />
-        {renderDropdown()} 
+        {renderDropdown()}
       </div>
       <ul className="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a style={{ color: 'rgb(98, 230, 98)' }} href="#">4K</a></li>
-        <li><a href="#">Trending</a></li>
-        <li><a href="#">Browse Movies</a></li>
+        <li><button onClick={() => navigate('/')}>Home</button></li>
+        <li><button style={{ color: 'rgb(98, 230, 98)' }} onClick={() => navigate('/4k')}>4K</button></li>
+        <li><button onClick={() => navigate('/trending')}>Trending</button></li>
+        <li><button onClick={() => navigate('/browse')}>Browse Movies</button></li>
       </ul>
       <div className="nav-auth">
-        <a href="#" className="login">Login</a>
-        <a href="#" className="register">Register</a>
+        <button onClick={() => navigate('/login')} className="login">Login</button>
+        <button onClick={() => navigate('/register')} className="register">Register</button>
       </div>
     </nav>
   );
