@@ -46,7 +46,7 @@ const MovieDetails = () => {
         <img src={movie.medium_cover_image} alt={movie.title} />
       </div>
       <div className="movie-info">
-        <h1>{movie.title}</h1>
+        <h1 className="text-3xl">{movie.title}</h1>
         <p>{movie.description_full || "Description not available"}</p>
         <div className="movie-rating">
           <strong>Rating:</strong> <span>{movie.rating} / 10</span>
