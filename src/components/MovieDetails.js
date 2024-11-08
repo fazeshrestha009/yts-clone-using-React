@@ -8,7 +8,6 @@ const fetchMovieDetails = async (id) => {
   const response = await axios.get(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`);
   return response.data.data.movie;
 };
-
 const MovieDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -21,11 +20,9 @@ const MovieDetails = () => {
 
   const handleAddToCart = () => {
     if (!movie) return;
-
     const originalPrice = 2000.00;
     const discount = 0.20;
     const discountedPrice = originalPrice * (1 - discount);
-
     const cartMovie = {
       id: movie.id,
       title: movie.title,
@@ -39,7 +36,6 @@ const MovieDetails = () => {
 
   if (isLoading) return <div className="loading">Loading movie details...</div>;
   if (error) return <div className="error">Error fetching movie details: {error.message}</div>;
-
   return (
     <div className="movie-details-container">
       <div className="movie-poster">
