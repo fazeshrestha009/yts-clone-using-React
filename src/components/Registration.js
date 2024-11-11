@@ -1,60 +1,72 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase'; 
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const password = watch('password', '');
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
+  const onSubmit = async (data) => {
+    if (data.password !== data.confirmPassword) {
+      alert('Passwords do not match');
       return;
     }
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
       navigate('/Login');
     } catch (error) {
-      setError(error.message || 'Registration failed. Please try again.');
+      alert(error.message || 'Registration failed. Please try again.');
     }
   };
   return (
     <div className="register-container min-h-screen flex items-center justify-center bg-gray-900 text-white">
-      <form onSubmit={handleRegister} className="bg-gray-800 p-8 rounded-lg shadow-md w-80">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-800 p-8 rounded-lg shadow-md w-80">
         <h2 className="text-2xl mb-4">Register</h2>
+        
         <input
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register('email', {
+            required: "Email is required",
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Invalid email format"
+            }
+          })}
           placeholder="Email"
-          required
           className="w-full p-2 mb-4 rounded bg-gray-700 text-white placeholder-gray-400"
         />
+        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+        
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register('password', {
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Password must be at least 6 characters"
+            }
+          })}
           placeholder="Password"
-          required
           className="w-full p-2 mb-4 rounded bg-gray-700 text-white placeholder-gray-400"
         />
+        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+
         <input
           type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          {...register('confirmPassword', {
+            validate: (value) => value === password || "Passwords do not match"
+          })}
           placeholder="Confirm Password"
-          required
           className="w-full p-2 mb-4 rounded bg-gray-700 text-white placeholder-gray-400"
         />
+        {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword.message}</p>}
+        
         <button type="submit" className="w-full p-2 bg-green-500 rounded hover:bg-green-600">
           Register
         </button>
-        {error && <p className="mt-4 text-red-500">{error}</p>}
       </form>
     </div>
   );
