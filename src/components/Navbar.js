@@ -4,8 +4,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase';
-import { useSelector} from 'react-redux';
-import { selectCartCount } from '../redux/cartSlice';
+import { useSelector } from 'react-redux';
+import { selectCartCount } from '../redux/cartSlice'; 
 
 const Navbar = () => {
   const [searchInput, setSearchInput] = useState('');
@@ -13,7 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const { user } = useAuth();
-  const cartCount = useSelector(selectCartCount);
+  const cartCount = useSelector(selectCartCount); 
 
   useEffect(() => {
     const handleClickOutside = (event) => {

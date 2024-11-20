@@ -11,7 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { CartProvider } from './components/CartContext';
-import { AuthProvider } from './components/AuthContext'; 
+import { AuthProvider } from './components/AuthContext';
 import './style.css';
 
 const queryClient = new QueryClient();
@@ -20,13 +20,20 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
-        <AuthProvider> 
+        <AuthProvider>
           <Router>
             <Navbar />
             <section className="landing">
               <Routes>
                 <Route path="/" element={<Movies />} />
-                <Route path="/movie/:id" element={<MovieDetails />} />
+                <Route
+                  path="/movie/:id"
+                  element={
+                    <ProtectedRoute>
+                      <MovieDetails />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route

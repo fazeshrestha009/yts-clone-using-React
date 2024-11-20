@@ -1,10 +1,12 @@
 import React from 'react';
-import { useCart } from './CartContext';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'; 
+import { removeItemFromCart } from '../redux/cartSlice'; 
 
 const Checkout = () => {
-  const { cart, removeFromCart } = useCart();
   const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart.items); 
+  const dispatch = useDispatch(); 
 
   const deliveryFee = 0;
   const serviceCharge = 0;
@@ -14,7 +16,7 @@ const Checkout = () => {
     const discount = 0;
     const subTotal = totalPrice;
     const grandTotal = subTotal + discount + deliveryFee + serviceCharge;
-    
+
     return { totalPrice, subTotal, discount, grandTotal };
   };
 
@@ -47,12 +49,12 @@ const Checkout = () => {
               {cart.map((item, index) => (
                 <tr key={index}>
                   <td>
-                    <img src={item.poster} alt={item.title} className="item-img"/>
+                    <img src={item.poster} alt={item.title} className="item-img" />
                   </td>
                   <td>{item.title}</td>
                   <td>₨{(item.discountedPrice || 0).toFixed(2)}</td>
                   <td>
-                    <button onClick={() => removeFromCart(index)} className="remove-btn">
+                    <button onClick={() => dispatch(removeItemFromCart(item.id))} className="remove-btn">
                       Remove
                     </button>
                   </td>

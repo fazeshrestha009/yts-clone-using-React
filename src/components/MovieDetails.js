@@ -2,16 +2,18 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useCart } from './CartContext';
+import { useDispatch } from 'react-redux';
+import { addItemToCart } from '../redux/cartSlice'; 
 
 const fetchMovieDetails = async (id) => {
   const response = await axios.get(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`);
   return response.data.data.movie;
 };
+
 const MovieDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const dispatch = useDispatch();
 
   const { data: movie, isLoading, error } = useQuery({
     queryKey: ['movie', id],
@@ -29,13 +31,14 @@ const MovieDetails = () => {
       poster: movie.medium_cover_image,
       discountedPrice,
     };
-    addToCart(cartMovie);
+    dispatch(addItemToCart(cartMovie));
     alert("Movie added to cart!");
     navigate('/checkout');
   };
 
   if (isLoading) return <div className="loading">Loading movie details...</div>;
   if (error) return <div className="error">Error fetching movie details: {error.message}</div>;
+
   return (
     <div className="movie-details-container">
       <div className="movie-poster">
