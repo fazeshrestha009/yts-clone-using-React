@@ -3,10 +3,13 @@ import { useForm } from 'react-hook-form';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase'; 
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/authSlice';
 
 const Register = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const password = watch('password', '');
 
   const onSubmit = async (data) => {
@@ -15,12 +18,15 @@ const Register = () => {
       return;
     }
     try {
-      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const user = userCredential.user;
+      dispatch(setUser(user));
       navigate('/Login');
     } catch (error) {
       window.alert(error.message || 'Registration failed. Please try again.');
     }
   };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
@@ -63,6 +69,7 @@ const Register = () => {
               <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
             )}
           </div>
+
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2">Confirm Password</label>
             <input

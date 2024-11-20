@@ -4,6 +4,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase';
+import { useSelector} from 'react-redux';
+import { selectCartCount } from '../redux/cartSlice';
 
 const Navbar = () => {
   const [searchInput, setSearchInput] = useState('');
@@ -11,6 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const { user } = useAuth();
+  const cartCount = useSelector(selectCartCount);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -34,13 +37,27 @@ const Navbar = () => {
         const movies = response.data.data.movies || [];
         setSearchResults(movies);
       } catch (error) {
-        console.error('Error searching for movies:', error);
         setSearchResults([]);
       }
     } else {
       setSearchResults([]);
     }
   };
+
+  const handleMovieClick = (id) => {
+    setSearchResults([]);
+    navigate(`/movie/${id}`);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error.message);
+    }
+  };
+
   const renderDropdown = () => {
     if (searchResults.length === 0) return null;
     return (
@@ -58,18 +75,7 @@ const Navbar = () => {
       </div>
     );
   };
-  const handleMovieClick = (id) => {
-    setSearchResults([]);
-    navigate(`/movie/${id}`);
-  };
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate('/login');
-    } catch (error) {
-      console.error('Logout failed:', error.message);
-    }
-  };
+
   return (
     <nav className="navbar">
       <div className="logo">
@@ -93,22 +99,46 @@ const Navbar = () => {
         <li><button style={{ color: 'rgb(98, 230, 98)' }} onClick={() => navigate('/4k')}>4K</button></li>
         <li><button onClick={() => navigate('/trending')}>Trending</button></li>
         <li><button onClick={() => navigate('/browse')}>Browse Movies</button></li>
-      </ul>
-      <div className="nav-auth">
-        {user ? (
-          <button
-          onClick={handleLogout}
-            className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition-colors"
-          >
-            Logout
-          </button>
-        ) : (
-          <>
-            <button onClick={() => navigate('/login')} className="login mr-4">Login</button>
-            <button onClick={() => navigate('/register')} className="register">Register</button>
-          </>
+        {user && (
+          <li>
+            <div className="relative inline-block">
+              <button
+                onClick={() => navigate('/checkout')}
+                className="flex items-center gap-2 hover:text-green-400 transition duration-200"
+              >
+                <img
+                  src="/shopping-cart.png"
+                  alt="Cart"
+                  className="w-6 h-6"
+                />
+                <span>Cart</span>
+                {cartCount > 0 && (
+                  <span
+                    className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-xs rounded-full px-2 py-1 flex items-center justify-center w-5 h-5 text-center"
+                  >
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            </div>
+          </li>
         )}
-      </div>
+        <li>
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition-colors"
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              <button onClick={() => navigate('/login')} className="login mr-4">Login</button>
+              <button onClick={() => navigate('/register')} className="register">Register</button>
+            </>
+          )}
+        </li>
+      </ul>
     </nav>
   );
 };
