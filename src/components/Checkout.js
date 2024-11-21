@@ -65,35 +65,45 @@ const Checkout = () => {
         </div>
       </div>
 
-      <div className="cart-summary">
-        <h2>My Cart</h2>
-        <div className="price-breakdown">
-          <div className="price-item">
-            <span>SUB TOTAL</span>
-            <span>NPR {(subTotal || 0).toFixed(2)}</span>
-          </div>
-          <div className="price-item">
-            <span>Delivery Fee</span>
-            <span>NPR {(deliveryFee || 0).toFixed(2)}</span>
-          </div>
-          <div className="price-item">
-            <span>Service Charge</span>
-            <span>NPR {(serviceCharge || 0).toFixed(2)}</span>
-          </div>
-          <div className="price-item discount">
-            <span>Special Offer Discount</span>
-            <span>NPR {(-discount).toFixed(2)}</span>
+      <div className="w-full md:w-1/3 bg-black-1000 p-6 rounded-lg shadow-md">
+        <h3 className="text-xl font-medium text-gray-100 mb-4">Order Summary</h3>
+        <div className="space-y-4">
+          <table className="min-w-full table-auto">
+            <tbody>
+              <tr className="border-b border-gray-700">
+                <td className="px-4 py-2 text-left">Sub Total:</td>
+                <td className="px-4 py-2 text-right">NPR {(subTotal || 0).toFixed(2)}</td>
+              </tr>
+              <tr className="border-b border-gray-700">
+                <td className="px-4 py-2 text-left">Delivery Fee:</td>
+                <td className="px-4 py-2 text-right">NPR {(deliveryFee || 0).toFixed(2)}</td>
+              </tr>
+              <tr className="border-b border-gray-700">
+                <td className="px-4 py-2 text-left">Service Charge:</td>
+                <td className="px-4 py-2 text-right">NPR {(serviceCharge || 0).toFixed(2)}</td>
+              </tr>
+              <tr className="border-b border-gray-700">
+                <td className="px-4 py-2 text-left text-yellow-500">Special Offer Discount:</td>
+                <td className="px-4 py-2 text-right text-yellow-500">NPR {(-discount).toFixed(2)}</td>
+              </tr>
+              <tr className="border-b border-gray-700 font-semibold">
+                <td className="px-4 py-2 text-left">Grand Total:</td>
+                <td className="px-4 py-2 text-right">NPR {(grandTotal || 0).toFixed(2)}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="mt-4">
+            <p className="text-center text-gray-100 mb-2">
+              Total Price: <span className="font-semibold text-green-400">₨{(totalPrice || 0).toFixed(2)}</span>
+            </p>
+            <button
+              className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
+              onClick={handleProceedToCheckout}
+            >
+              Proceed to Checkout
+            </button>
           </div>
         </div>
-        <hr />
-        <div className="grand-total">
-          <span>Grand Total</span>
-          <span>NPR {(grandTotal || 0).toFixed(2)}</span>
-        </div>
-        <p>Total Price: <span className="total-price">₨{(totalPrice || 0).toFixed(2)}</span></p>
-        <button className="checkout-btn" onClick={handleProceedToCheckout}>
-          Proceed to Checkout
-        </button>
       </div>
     </div>
   );
